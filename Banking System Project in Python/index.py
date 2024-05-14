@@ -114,7 +114,7 @@ def Cr_Amt(accnt,name):
 	creditwn=tk.Tk()
 	creditwn.geometry("600x300")
 	creditwn.title("Credit Amount")
-	creditwn.configure(bg="sky vlue")
+	creditwn.configure(bg="sky blue")
 	fr1=tk.Frame(creditwn,bg="blue")
 	l_title=tk.Message(creditwn,text="TINKA BANK",relief="raised",width=2000,padx=600,pady=0,fg="white",bg="black",justify="center",anchor="center")
 	l_title.config(font=("Courier","50","bold"))
