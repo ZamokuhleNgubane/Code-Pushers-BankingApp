@@ -1,6 +1,6 @@
 import tkinter as tk
-from tkinter import messagebox
 from time import gmtime, strftime
+from tkinter import messagebox
 
 
 def is_number(s):
@@ -111,27 +111,29 @@ def debit_write(master,amt,accnt,name):
 		return
 
 def Cr_Amt(accnt,name):
-	creditwn=tk.Tk()
+	creditwn = tk.Tk()
 	creditwn.geometry("600x300")
-	creditwn.title("Credit Amount")
-	creditwn.configure(bg="sky vlue")
-	fr1=tk.Frame(creditwn,bg="blue")
-	l_title=tk.Message(creditwn,text="TINKA BANK",relief="raised",width=2000,padx=600,pady=0,fg="white",bg="black",justify="center",anchor="center")
-	l_title.config(font=("Courier","50","bold"))
+	creditwn.title("Deposit Amount")
+	creditwn.configure(bg="#29c5f6")
+	fr1 = tk.Frame(creditwn, bg="#29c5f6")
+	l_title = tk.Message(creditwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
+						 bg="black", justify="center", anchor="center")
+	l_title.config(font=("Courier", "50", "bold"))
 	l_title.pack(side="top")
-	l1=tk.Label(creditwn,relief="raised",text="Enter Amount to be Deposited: ")
-	e1=tk.Entry(creditwn,relief="raised")
+	l1 = tk.Label(creditwn, relief="raised", text="Enter Amount to be credited: ")
+	e1 = tk.Entry(creditwn, relief="raised")
 	l1.pack(side="top")
 	e1.pack(side="top")
-	b=tk.Button(creditwn,text="Credit",relief="raised",command=lambda:crdt_write(creditwn,e1.get(),accnt,name))
+	b = tk.Button(creditwn, text="Deposit", relief="raised",
+				  command=lambda: crdt_write(creditwn, e1.get(), accnt, name))
 	b.pack(side="top")
-	creditwn.bind("<Return>",lambda x:crdt_write(creditwn,e1.get(),accnt,name))
+	creditwn.bind("<Return>", lambda x: crdt_write(creditwn, e1.get(), accnt, name))
 
 
 def De_Amt(accnt,name):
 	debitwn=tk.Tk()
 	debitwn.geometry("600x300")
-	debitwn.title("Debit Amount")	
+	debitwn.title("Withdraw Cash")
 	debitwn.configure(bg="#29c5f6")
 	fr1=tk.Frame(debitwn,bg="#29c5f6")
 	l_title=tk.Message(debitwn,text="TINKA BANK",relief="raised",width=2000,padx=600,pady=0,fg="white",bg="black",justify="center",anchor="center")
@@ -141,7 +143,8 @@ def De_Amt(accnt,name):
 	e1=tk.Entry(debitwn,relief="raised")
 	l1.pack(side="top")
 	e1.pack(side="top")
-	b=tk.Button(debitwn,text="Debit",relief="raised",command=lambda:debit_write(debitwn,e1.get(),accnt,name))
+	b = tk.Button(debitwn, text="Withdraw", relief="raised",
+				  command=lambda: debit_write(debitwn, e1.get(), accnt, name))
 	b.pack(side="top")
 	debitwn.bind("<Return>",lambda x:debit_write(debitwn,e1.get(),accnt,name))
 
@@ -184,7 +187,7 @@ def disp_tr_hist(accnt):
 def logged_in_menu(accnt,name):
 	rootwn=tk.Tk()
 	rootwn.geometry("1600x500")
-	rootwn.title("UNITED BANK-"+name)
+	rootwn.title("TINKA BANK-" + name)
 	rootwn.configure(background='#29c5f6')
 	fr1=tk.Frame(rootwn)
 	fr1.pack(side="top")
@@ -193,14 +196,14 @@ def logged_in_menu(accnt,name):
 	l_title.pack(side="top")
 	label=tk.Label(text="Logged in as: "+name,relief="raised",bg="black",fg="white",anchor="center",justify="center")
 	label.pack(side="top")
-	img2=tk.PhotoImage(file="credit.gif")
-	myimg2=img2.subsample(2,2)
-	img3=tk.PhotoImage(file="debit.gif")
-	myimg3=img3.subsample(2,2)
-	img4=tk.PhotoImage(file="balance1.gif")
-	myimg4=img4.subsample(2,2)
-	img5=tk.PhotoImage(file="transaction.gif")
-	myimg5=img5.subsample(2,2)
+	img2 = tk.PhotoImage(file="credit.gif.png")
+	myimg2 = img2.subsample(2, 2)
+	img3 = tk.PhotoImage(file="debit.gif.png")
+	myimg3 = img3.subsample(2, 2)
+	img4 = tk.PhotoImage(file="balance1.gif.png")
+	myimg4 = img4.subsample(2, 2)
+	img5 = tk.PhotoImage(file="transaction.gif.png")
+	myimg5 = img5.subsample(2, 2)
 	b2=tk.Button(image=myimg2,command=lambda: Cr_Amt(accnt,name))
 	b2.image=myimg2
 	b3=tk.Button(image=myimg3,command=lambda: De_Amt(accnt,name))
@@ -210,8 +213,8 @@ def logged_in_menu(accnt,name):
 	b5=tk.Button(image=myimg5,command=lambda: disp_tr_hist(accnt))
 	b5.image=myimg5
 	
-	img6=tk.PhotoImage(file="logout.gif")
-	myimg6=img6.subsample(2,2)
+	img6 = tk.PhotoImage(file="logout.gif.png")
+	myimg6 = img6.subsample(2, 2)
 	b6=tk.Button(image=myimg6,relief="raised",command=lambda: logout(rootwn))
 	b6.image=myimg6
 
@@ -315,8 +318,8 @@ def Main_Menu():
 	fr_buttons.pack(pady=20)
 
 	# Buttons
-	imgc = tk.PhotoImage(file="new.gif").subsample(2, 2)
-	imglog = tk.PhotoImage(file="login.gif").subsample(2, 2)
+	imgc = tk.PhotoImage(file="new.gif.png").subsample(2, 2)
+	imglog = tk.PhotoImage(file="login.gif.png").subsample(2, 2)
 	b1 = tk.Button(fr_buttons, image=imgc, command=Create)
 	b1.image = imgc
 	b2 = tk.Button(fr_buttons, image=imglog, command=lambda: log_in(rootwn))
