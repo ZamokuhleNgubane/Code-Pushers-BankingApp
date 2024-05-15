@@ -124,13 +124,13 @@ def Cr_Amt(accnt, name):
     l_title = tk.Message(creditwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
                          bg="black", justify="center", anchor="center")
     l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top")
+    l_title.pack(side="top",pady=(5,10))
     l1 = tk.Label(creditwn, relief="raised", text="Enter Amount to be Deposited: ")
     e1 = tk.Entry(creditwn, relief="raised")
-    l1.pack(side="top")
-    e1.pack(side="top")
+    l1.pack(side="top",pady=(5,10))
+    e1.pack(side="top", pady=(0,10))
     b = tk.Button(creditwn, text="Credit", relief="raised", command=lambda: crdt_write(creditwn, e1.get(), accnt, name))
-    b.pack(side="top")
+    b.pack(side="top",pady=(5,5))
     creditwn.bind("<Return>", lambda x: crdt_write(creditwn, e1.get(), accnt, name))
 
 
@@ -143,13 +143,13 @@ def De_Amt(accnt, name):
     l_title = tk.Message(debitwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
                          bg="black", justify="center", anchor="center")
     l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top")
+    l_title.pack(side="top",pady=(5,10))
     l1 = tk.Label(debitwn, relief="raised", text="Enter Amount to be Withdrawn: ")
     e1 = tk.Entry(debitwn, relief="raised")
-    l1.pack(side="top")
-    e1.pack(side="top")
+    l1.pack(side="top",pady=(5,10 ))
+    e1.pack(side="top",pady=(0,10))
     b = tk.Button(debitwn, text="Debit", relief="raised", command=lambda: debit_write(debitwn, e1.get(), accnt, name))
-    b.pack(side="top")
+    b.pack(side="top",pady=(5,5))
     debitwn.bind("<Return>", lambda x: debit_write(debitwn, e1.get(), accnt, name))
 
 
@@ -190,7 +190,7 @@ def disp_tr_hist(accnt):
 def logged_in_menu(accnt, name):
     rootwn = tk.Tk()
     rootwn.geometry("1600x500")
-    rootwn.title("UNITED BANK-" + name)
+    rootwn.title("TINKA BANK-" + name)
     rootwn.configure(background='#29c5f6')
     fr1 = tk.Frame(rootwn)
     fr1.pack(side="top")
