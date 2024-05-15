@@ -51,7 +51,7 @@ def write(master, name, oc, pin):
 
     frec = open(str(accnt_no) + "-rec.txt", 'w')
     frec.write("Date                             Credit      Debit     Balance\n")
-    frec.write(str(strftime("[%Y-%m-%d] [%H:%M:%S]  ", gmtime())) + "     " + oc + "              " + oc + "\n")
+    frec.write(str(strftime("[%Y-%m-%d] [%H:%M:%S]  ", gmtime())) + "    " + oc + "             " + oc + "\n")
     frec.close()
 
     messagebox.showinfo("Details", "Your Account Number is: " + str(accnt_no))
