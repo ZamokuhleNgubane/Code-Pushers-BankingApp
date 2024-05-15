@@ -212,7 +212,7 @@ def logged_in_menu(accnt,name):
 	b4.image=myimg4
 	b5=tk.Button(image=myimg5,command=lambda: disp_tr_hist(accnt))
 	b5.image=myimg5
-	
+
 	img6 = tk.PhotoImage(file="logout.gif.png")
 	myimg6 = img6.subsample(2, 2)
 	b6=tk.Button(image=myimg6,relief="raised",command=lambda: logout(rootwn))
