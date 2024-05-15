@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, Message
 from time import gmtime, strftime
+from tkinter import filedialog
 
 
 def is_number(s):
@@ -161,6 +162,19 @@ def disp_bal(accnt):
     messagebox.showinfo("Balance", bal)
 
 def disp_tr_hist(accnt):
+    def download_history():
+        file_path = filedialog.asksaveasfilename(defaultextension=".txt",
+                                                 filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+        if file_path:
+            try:
+                with open(accnt + "-rec.txt", 'r') as frec:
+                    content = frec.read()
+                with open(file_path, 'w') as fsave:
+                    fsave.write(content)
+                print("Transaction history saved to:", file_path)
+            except FileNotFoundError:
+                print("No transaction history found for account:", accnt)
+
     disp_wn = tk.Tk()
     disp_wn.geometry("900x600")
     disp_wn.title("Transaction History")
@@ -198,8 +212,12 @@ def disp_tr_hist(accnt):
 
     text.config(state=tk.DISABLED)  # Make the text widget read-only
 
-    b = tk.Button(disp_wn, text="Quit", relief="raised", command=disp_wn.destroy)
-    b.pack(side="bottom", pady=(10, 20))  # Add vertical padding around the button
+    # Add the Download button
+    b_download = tk.Button(disp_wn, text="Download Transaction History", relief="raised", command=download_history)
+    b_download.pack(side="bottom", pady=(10, 10))  # Add vertical padding around the button
+
+    b_quit = tk.Button(disp_wn, text="Quit", relief="raised", command=disp_wn.destroy)
+    b_quit.pack(side="bottom", pady=(10, 20))  # Add vertical padding around the button
 
 # Assuming a test account record file for demonstration
 def create_test_record():
