@@ -1,7 +1,7 @@
 import tkinter as tk
-from tkinter import messagebox, Message
 from time import gmtime, strftime
 from tkinter import filedialog
+from tkinter import messagebox
 
 
 def is_number(s):
@@ -119,7 +119,7 @@ def debit_write(master, amt, accnt, name):
 def Cr_Amt(accnt, name):
     creditwn = tk.Tk()
     creditwn.geometry("600x300")
-    creditwn.title("Credit Amount")
+    creditwn.title("Deposit Amount")
     creditwn.configure(bg="#29c5f6")
     fr1 = tk.Frame(creditwn, bg="black")
     l_title = tk.Message(creditwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
