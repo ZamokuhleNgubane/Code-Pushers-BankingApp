@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, Message
 from time import gmtime, strftime
 
 
@@ -160,31 +160,57 @@ def disp_bal(accnt):
     fdet.close()
     messagebox.showinfo("Balance", bal)
 
-
 def disp_tr_hist(accnt):
     disp_wn = tk.Tk()
     disp_wn.geometry("900x600")
     disp_wn.title("Transaction History")
     disp_wn.configure(bg="#29c5f6")
-    fr1 = tk.Frame(disp_wn, bg="#29c5f6")
+
     l_title = tk.Message(disp_wn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
                          bg="black", justify="center", anchor="center")
     l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top")
-    fr1 = tk.Frame(disp_wn)
-    fr1.pack(side="top")
+    l_title.pack(side="top", pady=(10, 20))  # Add vertical padding around the title
+
     l1 = tk.Message(disp_wn, text="Your Transaction History:", padx=100, pady=20, width=1000, bg="black", fg="white",
                     relief="raised")
-    l1.pack(side="top")
+    l1.pack(side="top", pady=(10, 20))  # Add vertical padding around the heading
+
     fr2 = tk.Frame(disp_wn)
-    fr2.pack(side="top")
-    frec = open(accnt + "-rec.txt", 'r')
-    for line in frec:
-        l = tk.Message(disp_wn, anchor="w", text=line, relief="raised", width=2000)
-        l.pack(side="top")
+    fr2.pack(side="top", padx=10, pady=10)
+
+    # Create a Text widget with a scrollbar
+    text_frame = tk.Frame(disp_wn)
+    text_frame.pack(side="top", fill="both", expand=True, padx=10, pady=10)
+
+    scrollbar = tk.Scrollbar(text_frame)
+    scrollbar.pack(side="right", fill="y")
+
+    text = tk.Text(text_frame, wrap="none", yscrollcommand=scrollbar.set, font=("Courier", 12), relief="raised", bg="white")
+    text.pack(side="left", fill="both", expand=True)
+    scrollbar.config(command=text.yview)
+
+    try:
+        with open(accnt + "-rec.txt", 'r') as frec:
+            for line in frec:
+                text.insert(tk.END, line)
+    except FileNotFoundError:
+        text.insert(tk.END, "No transaction history found for account: " + accnt)
+
+    text.config(state=tk.DISABLED)  # Make the text widget read-only
+
     b = tk.Button(disp_wn, text="Quit", relief="raised", command=disp_wn.destroy)
-    b.pack(side="top")
-    frec.close()
+    b.pack(side="bottom", pady=(10, 20))  # Add vertical padding around the button
+
+# Assuming a test account record file for demonstration
+def create_test_record():
+    with open("12345-rec.txt", "w") as file:
+        file.write("Date       | Transaction | Amount\n")
+        file.write("2023-05-01 | Deposit     | 1000\n")
+        file.write("2023-05-02 | Withdrawal  | 500\n")
+
+create_test_record()
+disp_tr_hist("12345")
+tk.mainloop()
 
 
 def logged_in_menu(accnt, name):
