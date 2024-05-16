@@ -226,9 +226,6 @@ def create_test_record():
         file.write("2023-05-01 | Deposit     | 1000\n")
         file.write("2023-05-02 | Withdrawal  | 500\n")
 
-create_test_record()
-disp_tr_hist("12345")
-tk.mainloop()
 
 
 def logged_in_menu(accnt, name):
