@@ -111,7 +111,7 @@ def debit_write(master, amt, accnt, name):
         frec.write(str(strftime("[%Y-%m-%d] [%H:%M:%S]  ", gmtime())) + "     " + "              " + str(
             amti) + "              " + str(cb) + "\n")
         frec.close()
-        messagebox.showinfo("Operation Successfull!!", "Amount Debited Successfully!!")
+        messagebox.showinfo("Operation Successful!!", "Amount Debited Successfully!!")
         master.destroy()
         return
 
