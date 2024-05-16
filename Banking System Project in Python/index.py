@@ -28,7 +28,7 @@ def home_return(master):
 
 
 def write(master, name, oc, pin):
-    if ((is_number(name)) or (is_number(oc) == 0) or (is_number(pin) == 0) or name == ""):
+    if (is_number(name)) or (is_number(oc) == 0) or (is_number(pin) == 0) or name == "":
         messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
         master.destroy()
         return
@@ -60,7 +60,7 @@ def write(master, name, oc, pin):
 
 
 def crdt_write(master, amt, accnt, name):
-    if (is_number(amt) == 0):
+    if is_number(amt) == 0:
         messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
         master.destroy()
         return
@@ -87,7 +87,7 @@ def crdt_write(master, amt, accnt, name):
 
 
 def debit_write(master, amt, accnt, name):
-    if (is_number(amt) == 0):
+    if is_number(amt) == 0:
         messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
         master.destroy()
         return
@@ -96,7 +96,7 @@ def debit_write(master, amt, accnt, name):
     pin = fdet.readline()
     camt = int(fdet.readline())
     fdet.close()
-    if (int(amt) > camt):
+    if int(amt) > camt:
         messagebox.showinfo("Error!!", "You dont have that amount left in your account\nPlease try again.")
     else:
         amti = int(amt)
@@ -193,7 +193,6 @@ def disp_tr_hist(accnt):
     fr2 = tk.Frame(disp_wn)
     fr2.pack(side="top", padx=10, pady=10)
 
-    # Create a Text widget with a scrollbar
     text_frame = tk.Frame(disp_wn)
     text_frame.pack(side="top", fill="both", expand=True, padx=10, pady=10)
 
@@ -278,12 +277,12 @@ def logout(master):
 
 
 def check_log_in(master, name, acc_num, pin):
-    if (check_acc_nmb(acc_num) == 0):
+    if check_acc_nmb(acc_num) == 0:
         master.destroy()
         Main_Menu()
         return
 
-    if ((is_number(name)) or (is_number(pin) == 0)):
+    if (is_number(name)) or (is_number(pin) == 0):
         messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
         master.destroy()
         Main_Menu()
@@ -341,7 +340,7 @@ def Create():
     l2.pack(side="top", pady=(8, 4))
     e2 = tk.Entry(crwn)
     e2.pack(side="top", pady=(0, 5))
-    l3 = tk.Label(crwn, text="Enter Desired PIN:", relief="raised")
+    l3 = tk.Label(crwn, text="Enter Desired Pin:", relief="raised")
     l3.pack(side="top", pady=(8, 4))
     e3 = tk.Entry(crwn, show="*")
     e3.pack(side="top", pady=(8, 8))

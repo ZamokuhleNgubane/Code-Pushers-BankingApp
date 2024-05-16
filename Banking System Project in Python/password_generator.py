@@ -13,6 +13,7 @@ def generate_and_display_password():
 
 root = tk.Tk()
 root.title("Tinka Generator")
+root.configure(bg='#29c5f6')
 
 password_label = tk.Label(root, text="")
 password_label.pack(pady=10)
