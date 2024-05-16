@@ -1,3 +1,0 @@
-Date       | Transaction | Amount
-2023-05-01 | Deposit     | 1000
-2023-05-02 | Withdrawal  | 500

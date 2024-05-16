@@ -187,7 +187,7 @@ def disp_tr_hist(accnt):
 
     l1 = tk.Message(disp_wn, text="Your Transaction History:", padx=100, pady=20, width=1000, bg="black", fg="white",
                     relief="raised")
-    l1.pack(side="top", pady=(10, 20))  # Add vertical padding around the heading
+    l1.pack(side="top", pady=(10, 20))
 
     fr2 = tk.Frame(disp_wn)
     fr2.pack(side="top", padx=10, pady=10)
@@ -210,23 +210,20 @@ def disp_tr_hist(accnt):
     except FileNotFoundError:
         text.insert(tk.END, "No transaction history found for account: " + accnt)
 
-    text.config(state=tk.DISABLED)  # Make the text widget read-only
+    text.config(state=tk.DISABLED)
 
-    # Add the Download button
     b_download = tk.Button(disp_wn, text="Download Transaction History", relief="raised", command=download_history)
     b_download.pack(side="bottom", pady=(10, 10))  # Add vertical padding around the button
 
     b_quit = tk.Button(disp_wn, text="Quit", relief="raised", command=disp_wn.destroy)
     b_quit.pack(side="bottom", pady=(10, 20))  # Add vertical padding around the button
 
-# Assuming a test account record file for demonstration
+
 def create_test_record():
     with open("12345-rec.txt", "w") as file:
         file.write("Date       | Transaction | Amount\n")
         file.write("2023-05-01 | Deposit     | 1000\n")
         file.write("2023-05-02 | Withdrawal  | 500\n")
-
-
 
 def logged_in_menu(accnt, name):
     rootwn = tk.Tk()
@@ -357,15 +354,15 @@ def Main_Menu():
     rootwn.title("Tinka Bank")
     rootwn.configure(background='#29c5f6')
 
-    # Title label
+
     l_title = tk.Label(rootwn, text="TINKA BANK", font=("Courier", 50, "bold"), fg="white", bg="black")
     l_title.pack(pady=20)
 
-    # Frame for buttons
+
     fr_buttons = tk.Frame(rootwn, bg="#29c5f6")
     fr_buttons.pack(pady=20)
 
-    # Buttons
+
     imgc = tk.PhotoImage(file="new.gif.png").subsample(2, 2)
     imglog = tk.PhotoImage(file="login.gif.png").subsample(2, 2)
     b1 = tk.Button(fr_buttons, image=imgc, command=Create)
