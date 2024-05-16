@@ -125,32 +125,32 @@ def Cr_Amt(accnt, name):
     l_title = tk.Message(creditwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
                          bg="black", justify="center", anchor="center")
     l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top",pady=(5,10))
+    l_title.pack(side="top", pady=(5, 10))
     l1 = tk.Label(creditwn, relief="raised", text="Enter Amount to be Deposited: ")
     e1 = tk.Entry(creditwn, relief="raised")
-    l1.pack(side="top",pady=(5,10))
-    e1.pack(side="top", pady=(0,10))
+    l1.pack(side="top", pady=(5, 10))
+    e1.pack(side="top", pady=(0, 10))
     b = tk.Button(creditwn, text="Credit", relief="raised", command=lambda: crdt_write(creditwn, e1.get(), accnt, name))
-    b.pack(side="top",pady=(5,5))
+    b.pack(side="top", pady=(5, 5))
     creditwn.bind("<Return>", lambda x: crdt_write(creditwn, e1.get(), accnt, name))
 
 
 def De_Amt(accnt, name):
     debitwn = tk.Tk()
     debitwn.geometry("600x300")
-    debitwn.title("Debit Amount")
+    debitwn.title("Withdraw Amount")
     debitwn.configure(bg="#29c5f6")
     fr1 = tk.Frame(debitwn, bg="#29c5f6")
     l_title = tk.Message(debitwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
                          bg="black", justify="center", anchor="center")
     l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top",pady=(5,10))
+    l_title.pack(side="top", pady=(5, 10))
     l1 = tk.Label(debitwn, relief="raised", text="Enter Amount to be Withdrawn: ")
     e1 = tk.Entry(debitwn, relief="raised")
-    l1.pack(side="top",pady=(5,10 ))
-    e1.pack(side="top",pady=(0,10))
+    l1.pack(side="top", pady=(5, 10))
+    e1.pack(side="top", pady=(0, 10))
     b = tk.Button(debitwn, text="Debit", relief="raised", command=lambda: debit_write(debitwn, e1.get(), accnt, name))
-    b.pack(side="top",pady=(5,5))
+    b.pack(side="top", pady=(5, 5))
     debitwn.bind("<Return>", lambda x: debit_write(debitwn, e1.get(), accnt, name))
 
 
@@ -160,6 +160,7 @@ def disp_bal(accnt):
     bal = fdet.readline()
     fdet.close()
     messagebox.showinfo("Balance", bal)
+
 
 def disp_tr_hist(accnt):
     def download_history():
@@ -177,7 +178,7 @@ def disp_tr_hist(accnt):
 
     disp_wn = tk.Tk()
     disp_wn.geometry("900x600")
-    disp_wn.title("Transaction History")
+    disp_wn.title("Tinka Bank Transaction History")
     disp_wn.configure(bg="#29c5f6")
 
     l_title = tk.Message(disp_wn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
@@ -199,7 +200,8 @@ def disp_tr_hist(accnt):
     scrollbar = tk.Scrollbar(text_frame)
     scrollbar.pack(side="right", fill="y")
 
-    text = tk.Text(text_frame, wrap="none", yscrollcommand=scrollbar.set, font=("Courier", 12), relief="raised", bg="white")
+    text = tk.Text(text_frame, wrap="none", yscrollcommand=scrollbar.set, font=("Courier", 12), relief="raised",
+                   bg="white")
     text.pack(side="left", fill="both", expand=True)
     scrollbar.config(command=text.yview)
 
@@ -224,6 +226,7 @@ def create_test_record():
         file.write("Date       | Transaction | Amount\n")
         file.write("2023-05-01 | Deposit     | 1000\n")
         file.write("2023-05-02 | Withdrawal  | 500\n")
+
 
 def logged_in_menu(accnt, name):
     rootwn = tk.Tk()
@@ -299,24 +302,24 @@ def log_in(master):
     l_title = tk.Message(loginwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
                          bg="black", justify="center", anchor="center")
     l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top", pady=(5,10))
+    l_title.pack(side="top", pady=(5, 10))
     l1 = tk.Label(loginwn, text="Enter Name:", relief="raised")
-    l1.pack(side="top",pady=(8,4))
+    l1.pack(side="top", pady=(8, 4))
     e1 = tk.Entry(loginwn)
-    e1.pack(side="top" ,pady=(0,5))
+    e1.pack(side="top", pady=(0, 5))
     l2 = tk.Label(loginwn, text="Enter account number:", relief="raised")
-    l2.pack(side="top" , pady=(8,4))
+    l2.pack(side="top", pady=(8, 4))
     e2 = tk.Entry(loginwn)
-    e2.pack(side="top",pady=(0,5))
+    e2.pack(side="top", pady=(0, 5))
     l3 = tk.Label(loginwn, text="Enter your PIN:", relief="raised")
-    l3.pack(side="top", pady=(8,4))
+    l3.pack(side="top", pady=(8, 4))
     e3 = tk.Entry(loginwn, show="*")
-    e3.pack(side="top", pady=(0,10))
+    e3.pack(side="top", pady=(0, 10))
     b = tk.Button(loginwn, text="Submit",
                   command=lambda: check_log_in(loginwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
-    b.pack(side="top", pady=(5,5))
+    b.pack(side="top", pady=(5, 5))
     b1 = tk.Button(text="HOME", relief="raised", bg="black", fg="white", command=lambda: home_return(loginwn))
-    b1.pack(side="top",pady=(8,8) )
+    b1.pack(side="top", pady=(8, 8))
     loginwn.bind("<Return>", lambda x: check_log_in(loginwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
 
 
@@ -329,19 +332,19 @@ def Create():
     l_title = tk.Message(crwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white", bg="black",
                          justify="center", anchor="center")
     l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top",pady=(10,20))
+    l_title.pack(side="top", pady=(10, 20))
     l1 = tk.Label(crwn, text="Enter Name:", relief="raised")
-    l1.pack(side="top", pady=(8,4))
+    l1.pack(side="top", pady=(8, 4))
     e1 = tk.Entry(crwn)
-    e1.pack(side="top" ,pady=(0,5))
+    e1.pack(side="top", pady=(0, 5))
     l2 = tk.Label(crwn, text="Enter Opening Deposit:", relief="raised")
-    l2.pack(side="top",pady=(8,4))
+    l2.pack(side="top", pady=(8, 4))
     e2 = tk.Entry(crwn)
-    e2.pack(side="top", pady=(0,5))
+    e2.pack(side="top", pady=(0, 5))
     l3 = tk.Label(crwn, text="Enter Desired PIN:", relief="raised")
-    l3.pack(side="top",pady=(8,4))
+    l3.pack(side="top", pady=(8, 4))
     e3 = tk.Entry(crwn, show="*")
-    e3.pack(side="top",pady=(8,8))
+    e3.pack(side="top", pady=(8, 8))
     b = tk.Button(crwn, text="Submit",
                   command=lambda: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
     b.pack(side="top")
@@ -354,14 +357,11 @@ def Main_Menu():
     rootwn.title("Tinka Bank")
     rootwn.configure(background='#29c5f6')
 
-
     l_title = tk.Label(rootwn, text="TINKA BANK", font=("Courier", 50, "bold"), fg="white", bg="black")
     l_title.pack(pady=20)
 
-
     fr_buttons = tk.Frame(rootwn, bg="#29c5f6")
     fr_buttons.pack(pady=20)
-
 
     imgc = tk.PhotoImage(file="new.gif.png").subsample(2, 2)
     imglog = tk.PhotoImage(file="login.gif.png").subsample(2, 2)
