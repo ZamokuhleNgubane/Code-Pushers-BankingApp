@@ -183,7 +183,7 @@ def disp_tr_hist(accnt):
     l_title = tk.Message(disp_wn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
                          bg="black", justify="center", anchor="center")
     l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top", pady=(10, 20))  # Add vertical padding around the title
+    l_title.pack(side="top", pady=(10, 20))
 
     l1 = tk.Message(disp_wn, text="Your Transaction History:", padx=100, pady=20, width=1000, bg="black", fg="white",
                     relief="raised")
@@ -213,10 +213,10 @@ def disp_tr_hist(accnt):
     text.config(state=tk.DISABLED)
 
     b_download = tk.Button(disp_wn, text="Download Transaction History", relief="raised", command=download_history)
-    b_download.pack(side="bottom", pady=(10, 10))  # Add vertical padding around the button
+    b_download.pack(side="bottom", pady=(10, 10))
 
     b_quit = tk.Button(disp_wn, text="Quit", relief="raised", command=disp_wn.destroy)
-    b_quit.pack(side="bottom", pady=(10, 20))  # Add vertical padding around the button
+    b_quit.pack(side="bottom", pady=(10, 20))
 
 
 def create_test_record():
