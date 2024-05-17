@@ -2,6 +2,10 @@ import tkinter as tk
 from time import gmtime, strftime
 from tkinter import filedialog
 from tkinter import messagebox
+import string
+import random
+import pywhatkit
+import shutil
 
 
 def is_number(s):
@@ -27,6 +31,11 @@ def home_return(master):
     Main_Menu()
 
 
+def generate_password(length=12):
+    characters = string.ascii_letters + string.digits + string.punctuation
+    return ''.join(random.choice(characters) for _ in range(length))
+
+
 def write(master, name, oc, pin):
     if (is_number(name)) or (is_number(oc) == 0) or (is_number(pin) == 0) or name == "":
         messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
@@ -43,7 +52,7 @@ def write(master, name, oc, pin):
     f1.close()
 
     fdet = open(str(accnt_no) + ".txt", "w")
-    fdet.write(pin + "\n")
+    fdet.write(pin[:12] + "\n")
     fdet.write(oc + "\n")
     fdet.write(str(accnt_no) + "\n")
     fdet.write(name + "\n")
@@ -161,7 +170,6 @@ def disp_bal(accnt):
     fdet.close()
     messagebox.showinfo("Balance", bal)
 
-
 def disp_tr_hist(accnt):
     def download_history():
         file_path = filedialog.asksaveasfilename(defaultextension=".txt",
@@ -176,11 +184,25 @@ def disp_tr_hist(accnt):
             except FileNotFoundError:
                 print("No transaction history found for account:", accnt)
 
+    def send_to_whatsapp():
+        try:
+            # Copy the transaction history file to a temporary file
+            shutil.copyfile(accnt + "-rec.txt", "temp.txt")
+            # Send the content of the temporary file to WhatsApp
+            with open("temp.txt", 'r') as temp_file:
+                content = temp_file.read()
+            # Replace the phone number with the desired WhatsApp number
+            pywhatkit.sendwhatmsg("+27614536326", content, 11, 27)
+            print("Successfully Sent!")
+        except Exception as e:
+            print("An Unexpected Error:", e)
+
     disp_wn = tk.Tk()
     disp_wn.geometry("900x600")
     disp_wn.title("Tinka Bank Transaction History")
     disp_wn.configure(bg="#29c5f6")
 
+    # Display the transaction history
     l_title = tk.Message(disp_wn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
                          bg="black", justify="center", anchor="center")
     l_title.config(font=("Courier", "50", "bold"))
@@ -216,9 +238,12 @@ def disp_tr_hist(accnt):
     b_download = tk.Button(disp_wn, text="Download Transaction History", relief="raised", command=download_history)
     b_download.pack(side="bottom", pady=(10, 10))
 
+    # Add "Send to WhatsApp" button
+    b_whatsapp = tk.Button(disp_wn, text="Send to WhatsApp", relief="raised", command=send_to_whatsapp)
+    b_whatsapp.pack(side="bottom", pady=(10, 10))
+
     b_quit = tk.Button(disp_wn, text="Quit", relief="raised", command=disp_wn.destroy)
     b_quit.pack(side="bottom", pady=(10, 20))
-
 
 def create_test_record():
     with open("12345-rec.txt", "w") as file:
@@ -310,7 +335,7 @@ def log_in(master):
     l2.pack(side="top", pady=(8, 4))
     e2 = tk.Entry(loginwn)
     e2.pack(side="top", pady=(0, 5))
-    l3 = tk.Label(loginwn, text="Enter your PIN:", relief="raised")
+    l3 = tk.Label(loginwn, text="Enter your Password:", relief="raised")
     l3.pack(side="top", pady=(8, 4))
     e3 = tk.Entry(loginwn, show="*")
     e3.pack(side="top", pady=(0, 10))
@@ -340,15 +365,24 @@ def Create():
     l2.pack(side="top", pady=(8, 4))
     e2 = tk.Entry(crwn)
     e2.pack(side="top", pady=(0, 5))
-    l3 = tk.Label(crwn, text="Enter Desired Pin:", relief="raised")
+    l3 = tk.Label(crwn, text="Enter Desired Password:", relief="raised")
     l3.pack(side="top", pady=(8, 4))
     e3 = tk.Entry(crwn, show="*")
     e3.pack(side="top", pady=(8, 8))
+    generate_password_button = tk.Button(crwn, text="Generate Password",
+                                         command=lambda: generate_and_display_password(e3))
+    generate_password_button.pack(side="top", pady=(5, 5))
     b = tk.Button(crwn, text="Submit",
                   command=lambda: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
     b.pack(side="top")
     crwn.bind("<Return>", lambda x: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
-    return
+    crwn.mainloop()
+
+
+def generate_and_display_password(entry_widget):
+    password = generate_password()
+    entry_widget.delete(0, tk.END)
+    entry_widget.insert(tk.END, password)
 
 
 def Main_Menu():
