@@ -130,7 +130,7 @@ def Cr_Amt(accnt, name):
     e1 = tk.Entry(creditwn, relief="raised")
     l1.pack(side="top", pady=(5, 10))
     e1.pack(side="top", pady=(0, 10))
-    b = tk.Button(creditwn, text="Credit", relief="raised", command=lambda: crdt_write(creditwn, e1.get(), accnt, name))
+    b = tk.Button(creditwn, text="Debit", relief="raised", command=lambda: crdt_write(creditwn, e1.get(), accnt, name))
     b.pack(side="top", pady=(5, 5))
     creditwn.bind("<Return>", lambda x: crdt_write(creditwn, e1.get(), accnt, name))
 
