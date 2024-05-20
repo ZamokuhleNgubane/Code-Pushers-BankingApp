@@ -16,14 +16,18 @@ def is_number(s):
         return 0
 
 
-def check_acc_nmb(num):
+def check_acc_nmb(num, pin):
     try:
-        fpin = open(num + ".txt", 'r')
+        with open(num + ".txt", 'r') as fpin:
+            stored_pin = fpin.readline().strip()
+            if stored_pin != pin:
+                messagebox.showinfo("Error", "Invalid Credentials!\nTry Again!")
+                return False
     except FileNotFoundError:
         messagebox.showinfo("Error", "Invalid Credentials!\nTry Again!")
-        return 0
-    fpin.close()
-    return
+        return False
+    return True
+
 
 
 def home_return(master):
@@ -35,37 +39,33 @@ def generate_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
     return ''.join(random.choice(characters) for _ in range(length))
 
-
 def write(master, name, oc, pin):
-    if (is_number(name)) or (is_number(oc) == 0) or (is_number(pin) == 0) or name == "":
+    if is_number(name) or is_number(oc) == 0 or len(pin) != 12 or name == "":
         messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
         master.destroy()
         return
 
-    f1 = open("Accnt_Record.txt", 'r')
-    accnt_no = int(f1.readline())
+    with open("Accnt_Record.txt", 'r') as f1:
+        accnt_no = int(f1.readline().strip())
     accnt_no += 1
-    f1.close()
 
-    f1 = open("Accnt_Record.txt", 'w')
-    f1.write(str(accnt_no))
-    f1.close()
+    with open("Accnt_Record.txt", 'w') as f1:
+        f1.write(str(accnt_no))
 
-    fdet = open(str(accnt_no) + ".txt", "w")
-    fdet.write(pin[:12] + "\n")
-    fdet.write(oc + "\n")
-    fdet.write(str(accnt_no) + "\n")
-    fdet.write(name + "\n")
-    fdet.close()
+    with open(str(accnt_no) + ".txt", "w") as fdet:
+        fdet.write(pin + "\n")
+        fdet.write(oc + "\n")
+        fdet.write(str(accnt_no) + "\n")
+        fdet.write(name + "\n")
 
-    frec = open(str(accnt_no) + "-rec.txt", 'w')
-    frec.write("Date                             Credit      Debit     Balance\n")
-    frec.write(str(strftime("[%Y-%m-%d] [%H:%M:%S]  ", gmtime())) + "    " + oc + "             " + oc + "\n")
-    frec.close()
+    with open(str(accnt_no) + "-rec.txt", 'w') as frec:
+        frec.write("Date                             Credit      Debit     Balance\n")
+        frec.write(str(strftime("[%Y-%m-%d] [%H:%M:%S]  ", gmtime())) + "    " + oc + "             " + oc + "\n")
 
     messagebox.showinfo("Details", "Your Account Number is: " + str(accnt_no))
     master.destroy()
-    return
+
+
 
 
 def crdt_write(master, amt, accnt, name):
@@ -241,7 +241,6 @@ def disp_tr_hist(accnt):
     # Add "Send to WhatsApp" button
     b_whatsapp = tk.Button(disp_wn, text="Send to WhatsApp", relief="raised", command=send_to_whatsapp)
     b_whatsapp.pack(side="bottom", pady=(10, 10))
-
     b_quit = tk.Button(disp_wn, text="Quit", relief="raised", command=disp_wn.destroy)
     b_quit.pack(side="bottom", pady=(10, 20))
 
@@ -301,19 +300,118 @@ def logout(master):
     Main_Menu()
 
 
+def Create():
+    crwn = tk.Tk()
+    crwn.geometry("600x300")
+    crwn.title("Create Account")
+    crwn.configure(bg="#29c5f6")
+
+    l_title = tk.Message(crwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white", bg="black",
+                         justify="center", anchor="center")
+    l_title.config(font=("Courier", "50", "bold"))
+    l_title.pack(side="top", pady=(10, 20))
+
+    l1 = tk.Label(crwn, text="Enter Name:", relief="raised")
+    l1.pack(side="top", pady=(8, 4))
+    e1 = tk.Entry(crwn)
+    e1.pack(side="top", pady=(0, 5))
+
+    l2 = tk.Label(crwn, text="Enter Opening Deposit:", relief="raised")
+    l2.pack(side="top", pady=(8, 4))
+    e2 = tk.Entry(crwn)
+    e2.pack(side="top", pady=(0, 5))
+
+    l3 = tk.Label(crwn, text="Enter Desired Password:", relief="raised")
+    l3.pack(side="top", pady=(8, 4))
+    e3 = tk.Entry(crwn, show="*")
+    e3.pack(side="top", pady=(8, 8))
+
+    generate_password_button = tk.Button(crwn, text="Generate Password",
+                                         command=lambda: generate_and_display_password(e3))
+    generate_password_button.pack(side="top", pady=(5, 5))
+
+    show_button = tk.Button(crwn, text="Show Password", command=lambda: toggle_password_visibility(e3, show_button))
+    show_button.pack(side="top", pady=(5, 5))
+
+    b = tk.Button(crwn, text="Submit",
+                  command=lambda: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
+    b.pack(side="top")
+
+    crwn.bind("<Return>", lambda x: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
+    crwn.mainloop()
+
+
+def write(master, name, oc, pin):
+    if is_number(name) or is_number(oc) == 0 or len(pin) != 12 or name == "":
+        messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
+        master.destroy()
+        return
+
+    with open("Accnt_Record.txt", 'r') as f1:
+        accnt_no = int(f1.readline().strip())
+    accnt_no += 1
+
+    with open("Accnt_Record.txt", 'w') as f1:
+        f1.write(str(accnt_no))
+
+    with open(str(accnt_no) + ".txt", "w") as fdet:
+        fdet.write(pin + "\n")
+        fdet.write(oc + "\n")
+        fdet.write(str(accnt_no) + "\n")
+        fdet.write(name + "\n")
+
+    with open(str(accnt_no) + "-rec.txt", 'w') as frec:
+        frec.write("Date                             Credit      Debit     Balance\n")
+        frec.write(str(strftime("[%Y-%m-%d] [%H:%M:%S]  ", gmtime())) + "    " + oc + "             " + oc + "\n")
+
+    messagebox.showinfo("Details", "Your Account Number is: " + str(accnt_no))
+    master.destroy()
+
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+
+def Main_Menu():
+    rootwn = tk.Tk()
+    rootwn.title("Tinka Bank")
+    rootwn.configure(background='#29c5f6')
+
+    l_title = tk.Label(rootwn, text="TINKA BANK", font=("Courier", 50, "bold"), fg="white", bg="black")
+    l_title.pack(pady=20)
+
+    fr_buttons = tk.Frame(rootwn, bg="#29c5f6")
+    fr_buttons.pack(pady=20)
+
+    imgc = tk.PhotoImage(file="new.gif.png").subsample(2, 2)
+    imglog = tk.PhotoImage(file="login.gif.png").subsample(2, 2)
+    b1 = tk.Button(fr_buttons, image=imgc, command=Create)
+    b1.image = imgc
+    b2 = tk.Button(fr_buttons, image=imglog, command=lambda: log_in(rootwn))
+    b2.image = imglog
+
+    b1.grid(row=0, column=0, padx=20)
+    b2.grid(row=0, column=1, padx=20)
+
+    rootwn.mainloop()
 def check_log_in(master, name, acc_num, pin):
-    if check_acc_nmb(acc_num) == 0:
+    if not check_acc_nmb(acc_num, pin):
         master.destroy()
         Main_Menu()
         return
 
-    if (is_number(name)) or (is_number(pin) == 0):
+    if (is_number(name)):
         messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
         master.destroy()
         Main_Menu()
     else:
         master.destroy()
         logged_in_menu(acc_num, name)
+
 
 
 def log_in(master):
@@ -347,42 +445,21 @@ def log_in(master):
     loginwn.bind("<Return>", lambda x: check_log_in(loginwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
 
 
-def Create():
-    crwn = tk.Tk()
-    crwn.geometry("600x300")
-    crwn.title("Create Account")
-    crwn.configure(bg="#29c5f6")
-    fr1 = tk.Frame(crwn, bg="white")
-    l_title = tk.Message(crwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white", bg="black",
-                         justify="center", anchor="center")
-    l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top", pady=(10, 20))
-    l1 = tk.Label(crwn, text="Enter Name:", relief="raised")
-    l1.pack(side="top", pady=(8, 4))
-    e1 = tk.Entry(crwn)
-    e1.pack(side="top", pady=(0, 5))
-    l2 = tk.Label(crwn, text="Enter Opening Deposit:", relief="raised")
-    l2.pack(side="top", pady=(8, 4))
-    e2 = tk.Entry(crwn)
-    e2.pack(side="top", pady=(0, 5))
-    l3 = tk.Label(crwn, text="Enter Desired Password:", relief="raised")
-    l3.pack(side="top", pady=(8, 4))
-    e3 = tk.Entry(crwn, show="*")
-    e3.pack(side="top", pady=(8, 8))
-    generate_password_button = tk.Button(crwn, text="Generate Password",
-                                         command=lambda: generate_and_display_password(e3))
-    generate_password_button.pack(side="top", pady=(5, 5))
-    b = tk.Button(crwn, text="Submit",
-                  command=lambda: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
-    b.pack(side="top")
-    crwn.bind("<Return>", lambda x: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
-    crwn.mainloop()
+
 
 
 def generate_and_display_password(entry_widget):
     password = generate_password()
     entry_widget.delete(0, tk.END)
     entry_widget.insert(tk.END, password)
+
+def toggle_password_visibility(entry_widget, show_button):
+    if entry_widget.cget('show') == '':
+        entry_widget.config(show='*')
+        show_button.config(text='Show Password')
+    else:
+        entry_widget.config(show='')
+        show_button.config(text='Hide Password')
 
 
 def Main_Menu():
