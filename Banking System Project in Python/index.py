@@ -66,32 +66,6 @@ def write(master, name, oc, pin):
     master.destroy()
 
 
-def crdt_write(master, amt, accnt, name):
-    if is_number(amt) == 0:
-        messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
-        master.destroy()
-        return
-
-    fdet = open(accnt + ".txt", 'r')
-    pin = fdet.readline()
-    camt = int(fdet.readline())
-    fdet.close()
-    amti = int(amt)
-    cb = amti + camt
-    fdet = open(accnt + ".txt", 'w')
-    fdet.write(pin)
-    fdet.write(str(cb) + "\n")
-    fdet.write(accnt + "\n")
-    fdet.write(name + "\n")
-    fdet.close()
-    frec = open(str(accnt) + "-rec.txt", 'a+')
-    frec.write(
-        str(strftime("[%Y-%m-%d] [%H:%M:%S]  ", gmtime())) + "     " + str(amti) + "              " + str(cb) + "\n")
-    frec.close()
-    messagebox.showinfo("Operation Successfull!!", "Amount Deposited Successfully!!")
-    master.destroy()
-    return
-
 
 def debit_write(master, amt, accnt, name):
     if is_number(amt) == 0:
@@ -306,7 +280,7 @@ def check_log_in(master, name, acc_num, pin):
         Main_Menu()
         return
 
-    if (is_number(name)):
+    if is_number(name):
         messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
         master.destroy()
         Main_Menu()
@@ -384,9 +358,36 @@ def generate_and_display_password(entry_widget):
     entry_widget.insert(tk.END, password)
 
 def update_clock(label):
-    current_time = strftime('%Y-%m-%d %H:%M:%S', gmtime())
-    label.config(text=current_time)
-    label.after(1000, update_clock, label)  # Update the clock every 1000 ms (1 second)
+    current_datetime = strftime('%Y-%m-%d %H:%M:%S')  # Format: YYYY-MM-DD HH:MM:SS
+    label.config(text=current_datetime)
+    label.after(1000, update_clock, label)
+
+
+def crdt_write(master, amt, accnt, name):
+    if is_number(amt) == 0:
+        messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
+        master.destroy()
+        return
+
+    fdet = open(accnt + ".txt", 'r')
+    pin = fdet.readline()
+    camt = int(fdet.readline())
+    fdet.close()
+    amti = int(amt)
+    cb = amti + camt
+    fdet = open(accnt + ".txt", 'w')
+    fdet.write(pin)
+    fdet.write(str(cb) + "\n")
+    fdet.write(accnt + "\n")
+    fdet.write(name + "\n")
+    fdet.close()
+    frec = open(str(accnt) + "-rec.txt", 'a+')
+    frec.write(
+        str(strftime("[%Y-%m-%d] [%H:%M:%S]  ", gmtime())) + "     " + str(amti) + "              " + str(cb) + "\n")
+    frec.close()
+    messagebox.showinfo("Operation Successfull!!", "Amount Deposited Successfully!!")
+    master.destroy()
+
 
 def Main_Menu():
     rootwn = tk.Tk()
@@ -415,5 +416,6 @@ def Main_Menu():
     update_clock(clock_label)  # Call the clock update function
 
     rootwn.mainloop()
+
 
 Main_Menu()
