@@ -66,7 +66,6 @@ def write(master, name, oc, pin):
     master.destroy()
 
 
-
 def debit_write(master, amt, accnt, name):
     if is_number(amt) == 0:
         messagebox.showinfo("Error", "Invalid Credentials\nPlease try again.")
@@ -321,6 +320,14 @@ def log_in(master):
 
 
 def Create():
+    def toggle_password_visibility():
+        if e3.cget('show') == '*':
+            e3.config(show='')
+            show_password_button.config(text='Hide Password')
+        else:
+            e3.config(show='*')
+            show_password_button.config(text='Show Password')
+
     crwn = tk.Tk()
     crwn.geometry("600x300")
     crwn.title("Create Account")
@@ -345,6 +352,10 @@ def Create():
     generate_password_button = tk.Button(crwn, text="Generate Password",
                                          command=lambda: generate_and_display_password(e3))
     generate_password_button.pack(side="top", pady=(5, 5))
+
+    show_password_button = tk.Button(crwn, text="Show Password", command=toggle_password_visibility)
+    show_password_button.pack(side="top", pady=(5, 5))
+
     b = tk.Button(crwn, text="Submit",
                   command=lambda: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
     b.pack(side="top")
@@ -356,6 +367,7 @@ def generate_and_display_password(entry_widget):
     password = generate_password()
     entry_widget.delete(0, tk.END)
     entry_widget.insert(tk.END, password)
+
 
 def update_clock(label):
     current_datetime = strftime('%Y-%m-%d %H:%M:%S')  # Format: YYYY-MM-DD HH:MM:SS
@@ -385,7 +397,7 @@ def crdt_write(master, amt, accnt, name):
     frec.write(
         str(strftime("[%Y-%m-%d] [%H:%M:%S]  ", gmtime())) + "     " + str(amti) + "              " + str(cb) + "\n")
     frec.close()
-    messagebox.showinfo("Operation Successfull!!", "Amount Deposited Successfully!!")
+    messagebox.showinfo("Operation Successful!!", "Amount Deposited Successfully!!")
     master.destroy()
 
 
