@@ -372,7 +372,7 @@ def generate_and_display_password(entry_widget):
 def update_clock(label):
     current_datetime = strftime('%Y-%m-%d %H:%M:%S')  # Format: YYYY-MM-DD HH:MM:SS
     label.config(text=current_datetime)
-    label.after(1000, update_clock, label)
+    label.after(1000, lambda: update_clock(label))
 
 
 def crdt_write(master, amt, accnt, name):
@@ -401,31 +401,42 @@ def crdt_write(master, amt, accnt, name):
     master.destroy()
 
 
+class ClockUpdater:
+    def __init__(self, label):
+        self.label = label
+
+    def update_clock(self):
+        current_datetime = strftime('%Y-%m-%d %H:%M:%S')
+        self.label.config(text=current_datetime)
+        self.label.after(1000, self.update_clock)
+
+
 def Main_Menu():
     rootwn = tk.Tk()
     rootwn.title("Tinka Bank")
     rootwn.configure(background='#29c5f6')
-
-    l_title = tk.Label(rootwn, text="TINKA BANK", font=("Courier", 50, "bold"), fg="white", bg="black")
-    l_title.pack(pady=20)
-
+    # Load your logo image
+    logo_image = tk.PhotoImage(file="918b31fa5a4b49a982796ff43e74db92 (1).png")
+    # Create a Label to display the logo
+    logo_label = tk.Label(rootwn, image=logo_image, bg='#29c5f6')
+    logo_label.image = logo_image  # This line keeps a reference to the image to prevent it from being garbage collected
+    # Pack or grid the logo label as per your design
+    logo_label.pack(pady=10)
     fr_buttons = tk.Frame(rootwn, bg="#29c5f6")
     fr_buttons.pack(pady=20)
-
     imgc = tk.PhotoImage(file="new.gif.png").subsample(2, 2)
     imglog = tk.PhotoImage(file="login.gif.png").subsample(2, 2)
     b1 = tk.Button(fr_buttons, image=imgc, command=Create)
     b1.image = imgc
     b2 = tk.Button(fr_buttons, image=imglog, command=lambda: log_in(rootwn))
     b2.image = imglog
-
     b1.grid(row=0, column=0, padx=20)
     b2.grid(row=0, column=1, padx=20)
-
-    # Add the clock label
+    # Create an instance of ClockUpdater and pass the clock label to it
     clock_label = tk.Label(rootwn, font=("Courier", 20), fg="white", bg="black")
     clock_label.pack(pady=10)
-    update_clock(clock_label)  # Call the clock update function
+    clock_updater = ClockUpdater(clock_label)
+    clock_updater.update_clock()  # Start the clock update loop
 
     rootwn.mainloop()
 
