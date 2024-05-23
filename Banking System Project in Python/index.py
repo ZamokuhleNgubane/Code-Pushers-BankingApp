@@ -5,7 +5,6 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import string
 import random
-import pywhatkit
 import shutil
 import os
 
@@ -158,18 +157,6 @@ def disp_tr_hist(accnt):
             except FileNotFoundError:
                 print("No transaction history found for account:", accnt)
 
-    def send_to_whatsapp():
-        try:
-            # Copy the transaction history file to a temporary file
-            shutil.copyfile(accnt + "-rec.txt", "temp.txt")
-            # Send the content of the temporary file to WhatsApp
-            with open("temp.txt", 'r') as temp_file:
-                content = temp_file.read()
-            # Replace the phone number with the desired WhatsApp number
-            pywhatkit.sendwhatmsg("+2761***6326", content, 11, 27)
-            print("Successfully Sent!")
-        except Exception as e:
-            print("An Unexpected Error:", e)
 
     disp_wn = tk.Tk()
     disp_wn.geometry("900x600")
@@ -212,9 +199,6 @@ def disp_tr_hist(accnt):
     b_download = tk.Button(disp_wn, text="Download Transaction History", relief="raised", command=download_history)
     b_download.pack(side="bottom", pady=(10, 10))
 
-    # Add "Send to WhatsApp" button
-    b_whatsapp = tk.Button(disp_wn, text="Send to WhatsApp", relief="raised", command=send_to_whatsapp)
-    b_whatsapp.pack(side="bottom", pady=(10, 10))
     b_quit = tk.Button(disp_wn, text="Quit", relief="raised", command=disp_wn.destroy)
     b_quit.pack(side="bottom", pady=(10, 20))
 
@@ -305,29 +289,45 @@ def Create():
             e3.config(show='*')
             show_password_button.config(text='Show Password')
 
+    def generate_and_display_password(entry):
+        # Dummy implementation for password generation
+        import random
+        import string
+        password = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+        entry.delete(0, tk.END)
+        entry.insert(0, password)
+
+    def write(window, name, deposit, password):
+        # Dummy implementation for form submission
+        print(f"Name: {name}, Deposit: {deposit}, Password: {password}")
+        window.destroy()
+
     crwn = tk.Tk()
-    crwn.geometry("600x400")
+    crwn.geometry("600x300")
     crwn.title("Create Account")
     crwn.configure(bg="#29c5f6")
-    fr2 = tk.Frame(crwn)
-    fr2.pack(side="top")
+
     # Load the logo image
     try:
-        image = Image.open("918b31fa5a4b49a982796ff43e74db92 (1).png")
+        image_path = "918b31fa5a4b49a982796ff43e74db92 (1).png"
+        print(f"Loading image from: {image_path}")
+        image = Image.open(image_path)
         logo_image = ImageTk.PhotoImage(image)
+        print("Image loaded successfully")
 
         # Create a Label to display the logo
         logo_label = tk.Label(crwn, image=logo_image, bg='#29c5f6')
         logo_label.image = logo_image  # Keep a reference to avoid garbage collection
         logo_label.pack(pady=(5, 0))
+        print("Logo label created")
     except Exception as e:
         print(f"Error loading logo image: {e}")
-
 
     l1 = tk.Label(crwn, text="Enter Name:", relief="raised")
     l1.pack(side="top", pady=(8, 4))
     e1 = tk.Entry(crwn)
     e1.pack(side="top", pady=(0, 5))
+
     l2 = tk.Label(crwn, text="Enter Opening Deposit:", relief="raised")
     l2.pack(side="top", pady=(8, 4))
     e2 = tk.Entry(crwn)
@@ -352,6 +352,10 @@ def Create():
     crwn.bind("<Return>", lambda x: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
 
     crwn.mainloop()
+
+
+# Call the Create function to run the GUI
+Create()
 
 def log_in(master):
     master.destroy()
