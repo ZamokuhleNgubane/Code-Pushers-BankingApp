@@ -60,10 +60,11 @@ class Login(tk.Frame):
         self.controller = controller
         self.configure(bg="#29c5f6")
 
-        l_title = tk.Message(self, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
-                             bg="black", justify="center", anchor="center")
-        l_title.config(font=("Courier", "50", "bold"))
-        l_title.pack(side="top", pady=(5, 10))
+        self.configure(bg="#29c5f6")
+        logo_image = tk.PhotoImage(file="918b31fa5a4b49a982796ff43e74db92 (1).png")
+        logo_label = tk.Label(self, image=logo_image, bg='#29c5f6')
+        logo_label.image = logo_image
+        logo_label.pack(pady=(5, 0))
 
         l1 = tk.Label(self, text="Enter Name:", relief="raised")
         l1.pack(side="top", pady=(8, 4))
@@ -83,8 +84,6 @@ class Login(tk.Frame):
         b = tk.Button(self, text="Submit", command=self.check_log_in)
         b.pack(side="top", pady=(5, 5))
 
-        b1 = tk.Button(self, text="HOME", relief="raised", bg="black", fg="white", command=lambda: controller.show_frame("MainMenu"))
-        b1.pack(side="top", pady=(8, 8))
 
         back_button = tk.Button(self, text="Back", command=lambda: controller.show_frame("MainMenu"))
         back_button.pack(side="top", pady=(8, 8))
@@ -105,16 +104,16 @@ class Login(tk.Frame):
             self.controller.show_frame("LoggedInMenu")
             self.controller.frames["LoggedInMenu"].set_user_info(acc_num, name)
 
+
 class CreateAccount(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
         self.configure(bg="#29c5f6")
-
-        l_title = tk.Message(self, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
-                             bg="black", justify="center", anchor="center")
-        l_title.config(font=("Courier", "50", "bold"))
-        l_title.pack(side="top", pady=(10, 20))
+        logo_image = tk.PhotoImage(file="918b31fa5a4b49a982796ff43e74db92 (1).png")
+        logo_label = tk.Label(self, image=logo_image, bg='#29c5f6')
+        logo_label.image = logo_image
+        logo_label.pack(pady=(5, 0))
 
         l1 = tk.Label(self, text="Enter Name:", relief="raised")
         l1.pack(side="top", pady=(8, 4))
@@ -180,11 +179,22 @@ class LoggedInMenu(tk.Frame):
         super().__init__(parent)
         self.controller = controller
         self.configure(background='#29c5f6')
+        self.configure(bg="#29c5f6")
+        logo_image = tk.PhotoImage(file="918b31fa5a4b49a982796ff43e74db92 (1).png")
+        logo_label = tk.Label(self, image=logo_image, bg='#29c5f6')
+        logo_label.image = logo_image
+        logo_label.pack(pady=(5, 0))
+        self.create_widgets()
 
-        l_title = tk.Message(self, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
-                             bg="black", justify="center", anchor="center")
-        l_title.config(font=("Courier", "50", "bold"))
-        l_title.pack(side="top")
+    def create_widgets(self):
+        self.label_welcome = tk.Label(self, text="Welcome!", font=("Arial", 24), bg="#29c5f6")
+        self.label_welcome.pack(pady=(10, 20))
+        btn_frame = tk.Frame(self, bg="#29c5f6")
+        btn_frame.pack(pady=20)
+        btn_deposit = tk.Button(btn_frame, text="Deposit",
+                                command=lambda: self.controller.show_frame("Deposit", self.accnt_no, self.name))
+        btn_withdraw = tk.Button(btn_frame, text="Withdraw",
+                                 command=lambda: self.controller.show_frame("Withdraw", self.accnt_no, self.name))
 
         self.label = tk.Label(self, relief="raised", bg="black", fg="white", anchor="center", justify="center")
         self.label.pack(side="top")
@@ -249,11 +259,12 @@ class DepositAmount(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
+        self.configure(bg="#29c5f6")
+        logo_image = tk.PhotoImage(file="918b31fa5a4b49a982796ff43e74db92 (1).png")
+        logo_label = tk.Label(self, image=logo_image, bg='#29c5f6')
+        logo_label.image = logo_image
+        logo_label.pack(pady=(5, 0))
 
-        l_title = tk.Message(self, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
-                             bg="black", justify="center", anchor="center")
-        l_title.config(font=("Courier", "50", "bold"))
-        l_title.pack(side="top")
 
         l1 = tk.Label(self, text="Enter Amount to be deposited:", relief="raised")
         l1.pack(side="top", pady=(8, 4))
@@ -280,19 +291,11 @@ class WithdrawAmount(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
-
-        l_title = tk.Message(self, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
-                             bg="black", justify="center", anchor="center")
-        l_title.config(font=("Courier", "50", "bold"))
-        l_title.pack(side="top")
-
-        l1 = tk.Label(self, text="Enter Amount to be withdrawn:", relief="raised")
-        l1.pack(side="top", pady=(8, 4))
-        self.e1 = tk.Entry(self)
-        self.e1.pack(side="top", pady=(0, 5))
-
-        b = tk.Button(self, text="Submit", command=self.withdraw_amount)
-        b.pack(side="top", pady=(5, 5))
+        self.configure(bg="#29c5f6")
+        logo_image = tk.PhotoImage(file="918b31fa5a4b49a982796ff43e74db92 (1).png")
+        logo_label = tk.Label(self, image=logo_image, bg='#29c5f6')
+        logo_label.image = logo_image
+        logo_label.pack(pady=(5, 0))
 
         back_button = tk.Button(self, text="Back", command=lambda: controller.show_frame("LoggedInMenu"))
         back_button.pack(side="top", pady=(8, 8))
