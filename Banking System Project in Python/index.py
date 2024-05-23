@@ -272,7 +272,7 @@ class DepositAmount(tk.Frame):
             messagebox.showerror("Error", "Please enter a valid amount")
             return
 
-        write_to_file(self.controller.frames["LoggedInMenu"].accnt, "DEPOSIT", amount)
+        write_to_file(self.controller.frames["LoggedInMenu"].accnt, "CREDIT", amount)
         messagebox.showinfo("Success", "Amount Deposited Successfully")
         self.controller.show_frame("LoggedInMenu")
 
@@ -308,7 +308,7 @@ class WithdrawAmount(tk.Frame):
             messagebox.showerror("Error", "Insufficient balance")
             return
 
-        write_to_file(self.controller.frames["LoggedInMenu"].accnt, "WITHDRAW", amount)
+        write_to_file(self.controller.frames["LoggedInMenu"].accnt, "DEBIT", amount)
         messagebox.showinfo("Success", "Amount Withdrawn Successfully")
         self.controller.show_frame("LoggedInMenu")
 
