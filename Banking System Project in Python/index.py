@@ -2,10 +2,12 @@ import tkinter as tk
 from time import gmtime, strftime
 from tkinter import filedialog
 from tkinter import messagebox
+from PIL import Image, ImageTk
 import string
 import random
 import pywhatkit
 import shutil
+import os
 
 
 def is_number(s):
@@ -164,7 +166,7 @@ def disp_tr_hist(accnt):
             with open("temp.txt", 'r') as temp_file:
                 content = temp_file.read()
             # Replace the phone number with the desired WhatsApp number
-            pywhatkit.sendwhatmsg("+27614536326", content, 11, 27)
+            pywhatkit.sendwhatmsg("+2761***6326", content, 11, 27)
             print("Successfully Sent!")
         except Exception as e:
             print("An Unexpected Error:", e)
@@ -231,10 +233,17 @@ def logged_in_menu(accnt, name):
     rootwn.configure(background='#29c5f6')
     fr1 = tk.Frame(rootwn)
     fr1.pack(side="top")
-    l_title = tk.Message(rootwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
-                         bg="black", justify="center", anchor="center")
-    l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top")
+    # Load the logo image
+    try:
+        image = Image.open("918b31fa5a4b49a982796ff43e74db92 (1).png")
+        logo_image = ImageTk.PhotoImage(image)
+
+        # Create a Label to display the logo
+        logo_label = tk.Label(rootwn, image=logo_image, bg='#29c5f6')
+        logo_label.image = logo_image  # Keep a reference to avoid garbage collection
+        logo_label.pack(pady=(5, 0))
+    except Exception as e:
+        print(f"Error loading logo image: {e}")
     label = tk.Label(text="Logged in as: " + name, relief="raised", bg="black", fg="white", anchor="center",
                      justify="center")
     label.pack(side="top")
@@ -254,7 +263,6 @@ def logged_in_menu(accnt, name):
     b4.image = myimg4
     b5 = tk.Button(image=myimg5, command=lambda: disp_tr_hist(accnt))
     b5.image = myimg5
-
     img6 = tk.PhotoImage(file="logout.gif.png")
     myimg6 = img6.subsample(2, 2)
     b6 = tk.Button(image=myimg6, relief="raised", command=lambda: logout(rootwn))
@@ -288,37 +296,6 @@ def check_log_in(master, name, acc_num, pin):
         logged_in_menu(acc_num, name)
 
 
-def log_in(master):
-    master.destroy()
-    loginwn = tk.Tk()
-    loginwn.geometry("600x300")
-    loginwn.title("Log in")
-    loginwn.configure(bg="#29c5f6")
-    fr1 = tk.Frame(loginwn, bg="white")
-    l_title = tk.Message(loginwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white",
-                         bg="black", justify="center", anchor="center")
-    l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top", pady=(5, 10))
-    l1 = tk.Label(loginwn, text="Enter Name:", relief="raised")
-    l1.pack(side="top", pady=(8, 4))
-    e1 = tk.Entry(loginwn)
-    e1.pack(side="top", pady=(0, 5))
-    l2 = tk.Label(loginwn, text="Enter account number:", relief="raised")
-    l2.pack(side="top", pady=(8, 4))
-    e2 = tk.Entry(loginwn)
-    e2.pack(side="top", pady=(0, 5))
-    l3 = tk.Label(loginwn, text="Enter your Password:", relief="raised")
-    l3.pack(side="top", pady=(8, 4))
-    e3 = tk.Entry(loginwn, show="*")
-    e3.pack(side="top", pady=(0, 10))
-    b = tk.Button(loginwn, text="Submit",
-                  command=lambda: check_log_in(loginwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
-    b.pack(side="top", pady=(5, 5))
-    b1 = tk.Button(text="HOME", relief="raised", bg="black", fg="white", command=lambda: home_return(loginwn))
-    b1.pack(side="top", pady=(8, 8))
-    loginwn.bind("<Return>", lambda x: check_log_in(loginwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
-
-
 def Create():
     def toggle_password_visibility():
         if e3.cget('show') == '*':
@@ -329,14 +306,24 @@ def Create():
             show_password_button.config(text='Show Password')
 
     crwn = tk.Tk()
-    crwn.geometry("600x300")
+    crwn.geometry("600x400")
     crwn.title("Create Account")
     crwn.configure(bg="#29c5f6")
-    fr1 = tk.Frame(crwn, bg="white")
-    l_title = tk.Message(crwn, text="TINKA BANK", relief="raised", width=2000, padx=600, pady=0, fg="white", bg="black",
-                         justify="center", anchor="center")
-    l_title.config(font=("Courier", "50", "bold"))
-    l_title.pack(side="top", pady=(10, 20))
+    fr2 = tk.Frame(crwn)
+    fr2.pack(side="top")
+    # Load the logo image
+    try:
+        image = Image.open("918b31fa5a4b49a982796ff43e74db92 (1).png")
+        logo_image = ImageTk.PhotoImage(image)
+
+        # Create a Label to display the logo
+        logo_label = tk.Label(crwn, image=logo_image, bg='#29c5f6')
+        logo_label.image = logo_image  # Keep a reference to avoid garbage collection
+        logo_label.pack(pady=(5, 0))
+    except Exception as e:
+        print(f"Error loading logo image: {e}")
+
+
     l1 = tk.Label(crwn, text="Enter Name:", relief="raised")
     l1.pack(side="top", pady=(8, 4))
     e1 = tk.Entry(crwn)
@@ -345,10 +332,12 @@ def Create():
     l2.pack(side="top", pady=(8, 4))
     e2 = tk.Entry(crwn)
     e2.pack(side="top", pady=(0, 5))
+
     l3 = tk.Label(crwn, text="Enter Desired Password:", relief="raised")
     l3.pack(side="top", pady=(8, 4))
     e3 = tk.Entry(crwn, show="*")
     e3.pack(side="top", pady=(8, 8))
+
     generate_password_button = tk.Button(crwn, text="Generate Password",
                                          command=lambda: generate_and_display_password(e3))
     generate_password_button.pack(side="top", pady=(5, 5))
@@ -359,8 +348,55 @@ def Create():
     b = tk.Button(crwn, text="Submit",
                   command=lambda: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
     b.pack(side="top")
+
     crwn.bind("<Return>", lambda x: write(crwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
+
     crwn.mainloop()
+
+def log_in(master):
+    master.destroy()
+    loginwn = tk.Tk()
+    loginwn.geometry("600x300")
+    loginwn.title("Log in")
+    loginwn.configure(bg="#29c5f6")
+
+    # Load the logo image
+    try:
+        image = Image.open("918b31fa5a4b49a982796ff43e74db92 (1).png")
+        logo_image = ImageTk.PhotoImage(image)
+
+        # Create a Label to display the logo
+        logo_label = tk.Label(loginwn, image=logo_image, bg='#29c5f6')
+        logo_label.image = logo_image  # Keep a reference to avoid garbage collection
+        logo_label.pack(pady=(5, 0))
+    except Exception as e:
+        print(f"Error loading logo image: {e}")
+
+    l1 = tk.Label(loginwn, text="Enter Name:", relief="raised")
+    l1.pack(side="top", pady=(8, 4))
+    e1 = tk.Entry(loginwn)
+    e1.pack(side="top", pady=(0, 5))
+
+    l2 = tk.Label(loginwn, text="Enter account number:", relief="raised")
+    l2.pack(side="top", pady=(8, 4))
+    e2 = tk.Entry(loginwn)
+    e2.pack(side="top", pady=(0, 5))
+
+    l3 = tk.Label(loginwn, text="Enter your Password:", relief="raised")
+    l3.pack(side="top", pady=(8, 4))
+    e3 = tk.Entry(loginwn, show="*")
+    e3.pack(side="top", pady=(0, 10))
+
+    b = tk.Button(loginwn, text="Submit",
+                  command=lambda: check_log_in(loginwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
+    b.pack(side="top", pady=(5, 5))
+
+    b1 = tk.Button(loginwn, text="HOME", relief="raised", bg="black", fg="white", command=lambda: home_return(loginwn))
+    b1.pack(side="top", pady=(8, 8))
+
+    loginwn.bind("<Return>", lambda x: check_log_in(loginwn, e1.get().strip(), e2.get().strip(), e3.get().strip()))
+
+    loginwn.mainloop()
 
 
 def generate_and_display_password(entry_widget):
